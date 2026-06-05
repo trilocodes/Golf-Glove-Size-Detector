@@ -3,12 +3,15 @@ import './App.css';
 
 const recommendSize = (handLengthInches) => {
   const inches = parseFloat(handLengthInches);
+  if (Number.isNaN(inches)) return null;
+
+  if (inches < 6.5) return 'Small';
   if (inches >= 8.0 && inches <= 8.25) return 'X-Large';
+  if (inches > 8.25) return 'X-Large';
   if (inches >= 7.5 && inches < 8.0) return 'Large';
   if (inches >= 7.25 && inches < 7.5) return 'Med/Large';
   if (inches >= 7.0 && inches < 7.25) return 'Medium';
-  if (inches >= 6.5 && inches < 7.0) return 'Small';
-  return null;
+  return 'Small';
 };
 
 const REFERENCE_OBJECTS = {
@@ -153,8 +156,10 @@ export default function App() {
     ctx.fillText(`Place ${referenceLabel} in the circle`, centerX, centerY - radius - 24);
     ctx.fillText('Palm end', centerX, centerY + radius + 30);
 
-    if (results.landmarks && results.landmarks.length > 0) {
-      const landmarks = results.landmarks[0];
+    const landmarkSets = results.multiHandLandmarks || results.landmarks;
+
+    if (landmarkSets && landmarkSets.length > 0) {
+      const landmarks = landmarkSets[0];
       missedFramesRef.current = 0;
       setHandDetected(true);
       handDetectedRef.current = true;
