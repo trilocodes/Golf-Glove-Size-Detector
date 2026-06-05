@@ -27,6 +27,7 @@ const REFERENCE_OBJECTS = {
 const GUIDE_DIAMETER_RATIO = 0.2;
 const GUIDE_CENTER_Y_RATIO = 0.66;
 const SIZE_ORDER = ['Small', 'Medium', 'Med/Large', 'Large', 'X-Large'];
+const HAND_MISS_FRAME_THRESHOLD = 8;
 
 const adjustSizeForPalmWidth = (baseSize, palmWidthInches) => {
   if (!baseSize) return null;
@@ -55,6 +56,7 @@ export default function App() {
   const referenceConfigRef = useRef(REFERENCE_OBJECTS.golfBall);
   const ballCalibratedRef = useRef(false);
   const handDetectedRef = useRef(false);
+  const missedFramesRef = useRef(0);
 
   const [stage, setStage] = useState('instruction');
   const [referenceType, setReferenceType] = useState('golfBall');
@@ -153,6 +155,7 @@ export default function App() {
 
     if (results.landmarks && results.landmarks.length > 0) {
       const landmarks = results.landmarks[0];
+      missedFramesRef.current = 0;
       setHandDetected(true);
       handDetectedRef.current = true;
 
@@ -165,8 +168,11 @@ export default function App() {
         [0, 5], [5, 9], [9, 13], [13, 17],
       ];
 
-      ctx.strokeStyle = 'rgba(100, 200, 255, 0.8)';
-      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      ctx.strokeStyle = 'rgba(9, 32, 63, 0.45)';
+      ctx.lineWidth = 5;
       connections.forEach(([start, end]) => {
         ctx.beginPath();
         ctx.moveTo(
@@ -180,17 +186,36 @@ export default function App() {
         ctx.stroke();
       });
 
-      ctx.fillStyle = 'rgba(100, 200, 255, 0.9)';
-      landmarks.forEach((landmark) => {
+      ctx.strokeStyle = 'rgba(110, 229, 255, 0.95)';
+      ctx.lineWidth = 2.6;
+      connections.forEach(([start, end]) => {
         ctx.beginPath();
-        ctx.arc(
-          landmark.x * canvas.width,
-          landmark.y * canvas.height,
-          5,
-          0,
-          2 * Math.PI
+        ctx.moveTo(
+          landmarks[start].x * canvas.width,
+          landmarks[start].y * canvas.height
         );
+        ctx.lineTo(
+          landmarks[end].x * canvas.width,
+          landmarks[end].y * canvas.height
+        );
+        ctx.stroke();
+      });
+
+      ctx.fillStyle = 'rgba(16, 43, 77, 0.75)';
+      landmarks.forEach((landmark) => {
+        const x = landmark.x * canvas.width;
+        const y = landmark.y * canvas.height;
+
+        ctx.beginPath();
+        ctx.arc(x, y, 5, 0, 2 * Math.PI);
         ctx.fill();
+
+        ctx.fillStyle = 'rgba(187, 246, 255, 0.96)';
+        ctx.beginPath();
+        ctx.arc(x, y, 2.5, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.fillStyle = 'rgba(16, 43, 77, 0.75)';
       });
 
       const wrist = landmarks[0];
@@ -235,8 +260,11 @@ export default function App() {
         setRecommendedSize(adjustedRecommendation);
       }
     } else {
-      setHandDetected(false);
-      handDetectedRef.current = false;
+      missedFramesRef.current += 1;
+      if (missedFramesRef.current >= HAND_MISS_FRAME_THRESHOLD) {
+        setHandDetected(false);
+        handDetectedRef.current = false;
+      }
     }
   }, []);
 
@@ -251,9 +279,28 @@ export default function App() {
     handDetectedRef.current = false;
 
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'user' },
-      });
+      const isMobileDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '');
+      let stream;
+
+      if (isMobileDevice) {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+              facingMode: { ideal: 'environment' },
+              width: { ideal: 1280 },
+              height: { ideal: 720 },
+            },
+          });
+        } catch (mobileCameraError) {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: 'user' },
+          });
+        }
+      } else {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user' },
+        });
+      }
 
       streamRef.current = stream;
       setStage('measuring');
@@ -284,8 +331,8 @@ export default function App() {
         hands.setOptions({
           maxNumHands: 1,
           modelComplexity: 1,
-          minDetectionConfidence: 0.7,
-          minTrackingConfidence: 0.5,
+          minDetectionConfidence: 0.55,
+          minTrackingConfidence: 0.55,
         });
 
         hands.onResults(onHandsResults);
@@ -479,8 +526,8 @@ export default function App() {
 
               <div className="button-group">
                 {!ballCalibrated && (
-                  <button className="btn-secondary" onClick={handleCalibrateGolfBall}>
-                    ✓ {selectedReference.label} Aligned
+                  <button className="btn-secondary btn-calibrate" onClick={handleCalibrateGolfBall}>
+                    {selectedReference.label} Aligned
                   </button>
                 )}
                 {ballCalibrated && measurement && (

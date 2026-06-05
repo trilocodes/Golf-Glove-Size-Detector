@@ -181,6 +181,27 @@ body {
   border-color: rgba(74, 144, 226, 0.6);
 }
 
+.btn-calibrate {
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #2f7ce5 0%, #1757b6 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 20px rgba(23, 87, 182, 0.28);
+}
+
+.btn-calibrate:hover {
+  background: linear-gradient(135deg, #3a89ef 0%, #1a63cc 100%);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-calibrate:active {
+  transform: translateY(0);
+  box-shadow: 0 5px 12px rgba(23, 87, 182, 0.24);
+}
+
 /* BUTTON GROUP */
 .button-group {
   display: flex;
@@ -209,8 +230,6 @@ video {
   object-fit: cover;
   position: relative;
   z-index: 1;
-  transform: scaleX(-1);
-  transform-origin: center;
 }
 
 .guide-overlay {
@@ -270,8 +289,6 @@ video {
   height: 100%;
   cursor: crosshair;
   z-index: 3;
-  transform: scaleX(-1);
-  transform-origin: center;
 }
 
 .measuring-layout {
