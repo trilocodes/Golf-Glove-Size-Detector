@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Golf-Glove-Size-Detector/static/css/main.54a9ab39.css",
+    "main.js": "/Golf-Glove-Size-Detector/static/js/main.4f1598b1.js",
+    "index.html": "/Golf-Glove-Size-Detector/index.html",
+    "main.54a9ab39.css.map": "/Golf-Glove-Size-Detector/static/css/main.54a9ab39.css.map",
+    "main.4f1598b1.js.map": "/Golf-Glove-Size-Detector/static/js/main.4f1598b1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.54a9ab39.css",
+    "static/js/main.4f1598b1.js"
+  ]
+}
