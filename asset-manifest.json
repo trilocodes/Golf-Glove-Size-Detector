@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Golf-Glove-Size-Detector/static/css/main.c044b578.css",
-    "main.js": "/Golf-Glove-Size-Detector/static/js/main.37e7309e.js",
+    "main.js": "/Golf-Glove-Size-Detector/static/js/main.f0b8c48a.js",
     "index.html": "/Golf-Glove-Size-Detector/index.html",
     "main.c044b578.css.map": "/Golf-Glove-Size-Detector/static/css/main.c044b578.css.map",
-    "main.37e7309e.js.map": "/Golf-Glove-Size-Detector/static/js/main.37e7309e.js.map"
+    "main.f0b8c48a.js.map": "/Golf-Glove-Size-Detector/static/js/main.f0b8c48a.js.map"
   },
   "entrypoints": [
     "static/css/main.c044b578.css",
-    "static/js/main.37e7309e.js"
+    "static/js/main.f0b8c48a.js"
   ]
 }
