@@ -68,3 +68,18 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Hosting on GitHub Pages
+
+This project is set up to deploy to GitHub Pages with:
+
+### `npm run deploy`
+
+Before deploying, make sure your local git repository has a GitHub remote named `origin`.
+
+1. Create a repository on GitHub.
+2. Add the remote, for example: `git remote add origin https://github.com/<your-username>/<your-repo>.git`
+3. Push your branch: `git push -u origin master`
+4. Publish the app: `npm run deploy`
+
+If you rename the repository later, update the `homepage` field in `package.json`.
