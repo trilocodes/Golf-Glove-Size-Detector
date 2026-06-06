@@ -176,8 +176,8 @@ export default function App() {
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
 
-      ctx.strokeStyle = 'rgba(9, 32, 63, 0.45)';
-      ctx.lineWidth = 5;
+      ctx.strokeStyle = 'rgba(6, 18, 33, 0.65)';
+      ctx.lineWidth = 6;
       connections.forEach(([start, end]) => {
         ctx.beginPath();
         ctx.moveTo(
@@ -191,8 +191,8 @@ export default function App() {
         ctx.stroke();
       });
 
-      ctx.strokeStyle = 'rgba(110, 229, 255, 0.95)';
-      ctx.lineWidth = 2.6;
+      ctx.strokeStyle = 'rgba(110, 229, 255, 1)';
+      ctx.lineWidth = 3;
       connections.forEach(([start, end]) => {
         ctx.beginPath();
         ctx.moveTo(
@@ -206,21 +206,21 @@ export default function App() {
         ctx.stroke();
       });
 
-      ctx.fillStyle = 'rgba(16, 43, 77, 0.75)';
+      ctx.fillStyle = 'rgba(6, 18, 33, 0.8)';
       landmarks.forEach((landmark) => {
         const x = landmark.x * canvas.width;
         const y = landmark.y * canvas.height;
 
         ctx.beginPath();
-        ctx.arc(x, y, 5, 0, 2 * Math.PI);
+        ctx.arc(x, y, 6, 0, 2 * Math.PI);
         ctx.fill();
 
-        ctx.fillStyle = 'rgba(187, 246, 255, 0.96)';
+        ctx.fillStyle = 'rgba(187, 246, 255, 1)';
         ctx.beginPath();
-        ctx.arc(x, y, 2.5, 0, 2 * Math.PI);
+        ctx.arc(x, y, 3, 0, 2 * Math.PI);
         ctx.fill();
 
-        ctx.fillStyle = 'rgba(16, 43, 77, 0.75)';
+        ctx.fillStyle = 'rgba(6, 18, 33, 0.8)';
       });
 
       const wrist = landmarks[0];

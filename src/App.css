@@ -230,6 +230,8 @@ video {
   object-fit: cover;
   position: relative;
   z-index: 1;
+  transform: scaleX(-1);
+  transform-origin: center;
 }
 
 .guide-overlay {
@@ -289,6 +291,8 @@ video {
   height: 100%;
   cursor: crosshair;
   z-index: 3;
+  transform: scaleX(-1);
+  transform-origin: center;
 }
 
 .measuring-layout {
